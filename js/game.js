@@ -84,20 +84,22 @@ canvas.addEventListener('touchstart', (event) => {
     }
 });
 
+// Handle touch event for platform movement
 canvas.addEventListener('touchmove', (event) => {
-    event.preventDefault(); // Prevent default scrolling behavior
-    if (isGameRunning && touchStartX !== null) {
+    event.preventDefault(); // Prevent default touch behavior, such as scrolling
+    if (isGameRunning) {
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
         const touch = event.touches[0];
-        const movementX = touch.clientX - touchStartX;
-        platformX += movementX;
+        platformX = (touch.clientX - rect.left) * scaleX - platformWidth / 2;
         if (platformX < 0) {
             platformX = 0;
         } else if (platformX + platformWidth > canvas.width) {
             platformX = canvas.width - platformWidth;
         }
-        touchStartX = touch.clientX;
     }
 });
+
 
 canvas.addEventListener('touchend', () => {
     touchStartX = null;
