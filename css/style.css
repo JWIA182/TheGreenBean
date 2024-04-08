@@ -92,3 +92,28 @@ ul, ol {
     list-style: none;
     padding: 0;
 }
+
+/* Media Queries */
+@media only screen and (max-width: 600px) {
+    /* Adjust styles for screens smaller than 600px */
+    header {
+        padding: 10px;
+    }
+    header nav ul {
+        flex-wrap: wrap;
+    }
+    header nav ul li {
+        margin: 5px;
+    }
+    .start-game-button {
+        font-size: 14px;
+    }
+    #score-container {
+        font-size: 16px;
+    }
+    /* Make images responsive */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+}
