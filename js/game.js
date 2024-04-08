@@ -6,6 +6,8 @@ const countdownElement = document.querySelector('.countdown');
 const scoreElement = document.getElementById('score');
 const personalBestElement = document.getElementById('personal-best');
 
+
+
 // Game variables
 let platformX = 350;
 let platformY = 550;
@@ -52,7 +54,10 @@ createBlocks(currentLevel);
 // Handle mouse movement
 canvas.addEventListener('mousemove', (event) => {
     if (isGameRunning) {
-        platformX = event.clientX - canvas.offsetLeft - platformWidth / 2;
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+        platformX = (event.clientX - rect.left) * scaleX - platformWidth / 2;
         if (platformX < 0) {
             platformX = 0;
         } else if (platformX + platformWidth > canvas.width) {
@@ -71,8 +76,11 @@ document.addEventListener('keydown', (event) => {
 // Handle touch event for platform movement
 canvas.addEventListener('touchmove', (event) => {
     if (isGameRunning) {
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
         const touch = event.touches[0];
-        platformX = touch.clientX - canvas.offsetLeft - platformWidth / 2;
+        platformX = (touch.clientX - rect.left) * scaleX - platformWidth / 2;
         if (platformX < 0) {
             platformX = 0;
         } else if (platformX + platformWidth > canvas.width) {
