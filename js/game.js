@@ -73,39 +73,35 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
-// Flag to track if touch is active
-let isTouchActive = false;
+// Variables to track touch movement
+let touchStartX = null;
 
 // Handle touch event for platform movement
+canvas.addEventListener('touchstart', (event) => {
+    if (isGameRunning) {
+        const touch = event.touches[0];
+        touchStartX = touch.clientX;
+    }
+});
+
 canvas.addEventListener('touchmove', (event) => {
     event.preventDefault(); // Prevent default scrolling behavior
-    if (isGameRunning) {
-        const rect = canvas.getBoundingClientRect();
-        const scaleX = canvas.width / rect.width;
-        const scaleY = canvas.height / rect.height;
+    if (isGameRunning && touchStartX !== null) {
         const touch = event.touches[0];
-        platformX = (touch.clientX - rect.left) * scaleX - platformWidth / 2;
+        const movementX = touch.clientX - touchStartX;
+        platformX += movementX;
         if (platformX < 0) {
             platformX = 0;
         } else if (platformX + platformWidth > canvas.width) {
             platformX = canvas.width - platformWidth;
         }
+        touchStartX = touch.clientX;
     }
 });
 
-// Handle touch event to start the game
-canvas.addEventListener('touchstart', () => {
-    if (!isGameRunning) {
-        startGame();
-    }
-    isTouchActive = true; // Set touch active when touch starts
-});
-
-// Handle touch end event
 canvas.addEventListener('touchend', () => {
-    isTouchActive = false; // Set touch inactive when touch ends
+    touchStartX = null;
 });
-
 
 // Start game button click
 startGameButton.addEventListener('click', startGame);
