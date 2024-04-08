@@ -29,12 +29,6 @@ header nav ul li a {
     text-decoration: none;
 }
 
-/* Main Content Styles */
-main {
-    padding: 20px;
-}
-
-/* Footer Styles */
 footer {
     background-color: #008000;
     color: #fff;
@@ -42,55 +36,6 @@ footer {
     text-align: center;
 }
 
-/* Add this to your existing styles.css file */
-.login-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: calc(100vh - 120px);
-}
-
-.login-container h2 {
-    margin-bottom: 20px;
-}
-
-.login-container form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 300px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.login-container label {
-    margin-bottom: 10px;
-}
-
-.login-container input {
-    width: 100%;
-    padding: 5px;
-    margin-bottom: 20px;
-}
-
-.login-container button {
-    width: 100%;
-    padding: 10px;
-    background-color: #008000;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-#login-message {
-    margin-top: 20px;
-    font-weight: bold;
-}
-
-/* Add this to your existing styles.css file */
 canvas {
     border: 1px solid #000;
     display: block;
@@ -102,7 +47,6 @@ main {
     text-align: center;
 }
 
-/* Add this to your existing styles.css file */
 .countdown-container {
     display: none;
     justify-content: center;
@@ -144,26 +88,7 @@ main {
     font-size: 18px;
 }
 
-.row {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.col-8 {
-    flex: 0 0 66.666667%;
-    max-width: 66.666667%;
-}
-
-.col-4 {
-    flex: 0 0 33.333333%;
-    max-width: 33.333333%;
-}
-
-.col-12 {
-    flex: 0 0 100%;
-    max-width: 100%;
-}
-
-.float-right {
-    float: right;
+ul, ol {
+    list-style: none;
+    padding: 0;
 }
