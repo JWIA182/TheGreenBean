@@ -134,18 +134,19 @@ function gameLoop(timestamp) {
     }
 
     // Check for block collisions
-    let allBlocksDestroyed = true;
-    blocks.forEach((block, index) => {
-        if (block.visible && ballX - ballRadius < block.x + block.width && ballX + ballRadius > block.x && ballY - ballRadius < block.y + block.height && ballY + ballRadius > block.y) {
+    let blockHit = false;
+    for (let i = 0; i < blocks.length; i++) {
+        if (blocks[i].visible && ballX - ballRadius < blocks[i].x + blocks[i].width && ballX + ballRadius > blocks[i].x && ballY - ballRadius < blocks[i].y + blocks[i].height && ballY + ballRadius > blocks[i].y) {
             ballSpeedY *= -1;
-            block.visible = false;
-            score++;
-            scoreElement.textContent = score;
+            blocks[i].visible = false;
+            if (!blockHit) {
+                score++;
+                scoreElement.textContent = score;
+                blockHit = true;
+            }
+            break; // Exit the loop after the first block is hit
         }
-        if (block.visible) {
-            allBlocksDestroyed = false;
-        }
-    });
+    }
 
     // Update the personal best
     if (score > personalBest) {
@@ -154,7 +155,7 @@ function gameLoop(timestamp) {
     }
 
     // Respawn blocks if all are destroyed
-    if (allBlocksDestroyed) {
+    if (blocks.every(block => !block.visible)) {
         currentLevel++;
         createBlocks(currentLevel);
         isGameRunning = false;
