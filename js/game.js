@@ -14,8 +14,8 @@ let platformHeight = 20;
 let ballX = canvas.width / 2;
 let ballY = canvas.height / 2;
 let ballRadius = 20;
-let ballSpeedX = 2; // Reduce ball speed
-let ballSpeedY = 2; // Reduce ball speed
+let ballSpeedX = 2;
+let ballSpeedY = 2;
 let blockWidth = 80;
 let blockHeight = 30;
 let blocks = [];
@@ -24,12 +24,11 @@ let countdownTimer = 3;
 let currentLevel = 1;
 let score = 0;
 let personalBest = 0;
-let ballRotationAngle = 0; // New variable for ball rotation
-let ballRotationSpeed = 0.1; // Adjust this value to control the rotation speed
+let ballRotationAngle = 0;
+let ballRotationSpeed = 0.1;
 let ballImage = new Image();
 ballImage.src = '/imgs/GreenBean.png';
-
-
+let lastTimestamp = null;
 
 // Create blocks
 function createBlocks(level) {
@@ -84,16 +83,21 @@ function startGame() {
             clearInterval(countdownInterval);
             countdownContainer.style.display = 'none';
             resetGame();
-            gameLoop();
+            gameLoop(performance.now());
         }
     }, 1000);
 }
 
-// Game loop
-function gameLoop() {
+function gameLoop(timestamp) {
     if (!isGameRunning) {
         return;
     }
+
+    let elapsed = 0;
+    if (lastTimestamp) {
+        elapsed = timestamp - lastTimestamp;
+    }
+    lastTimestamp = timestamp;
 
     // Clear the canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -101,10 +105,10 @@ function gameLoop() {
     // Draw the platform
     ctx.fillRect(platformX, platformY, platformWidth, platformHeight);
 
-    if (ballImage.complete){
-
+    if (ballImage.complete) {
         ctx.drawImage(ballImage, ballX - ballRadius, ballY - ballRadius, ballRadius * 2, ballRadius * 2);
     }
+
     // Draw the blocks
     blocks.forEach(block => {
         if (block.visible) {
@@ -113,8 +117,8 @@ function gameLoop() {
     });
 
     // Update ball position
-    ballX += ballSpeedX;
-    ballY += ballSpeedY;
+    ballX += ballSpeedX * (elapsed / 16.67);
+    ballY += ballSpeedY * (elapsed / 16.67);
 
     // Bounce the ball off the walls
     if (ballX - ballRadius < 0 || ballX + ballRadius > canvas.width) {
@@ -187,6 +191,7 @@ function resetGame() {
     platformX = 350;
     ballX = canvas.width / 2;
     ballY = canvas.height / 2;
-    ballSpeedX = 2; // Reset ball speed
-    ballSpeedY = 2; // Reset ball speed
+    ballSpeedX = 7;
+    ballSpeedY = 7;
+    lastTimestamp = null;
 }
