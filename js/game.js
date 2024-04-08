@@ -78,10 +78,11 @@ let isTouchActive = false;
 
 // Handle touch event for platform movement
 canvas.addEventListener('touchmove', (event) => {
-    event.preventDefault(); // Prevent default touch behavior
-    if (isGameRunning && isTouchActive) {
+    event.preventDefault(); // Prevent default scrolling behavior
+    if (isGameRunning) {
         const rect = canvas.getBoundingClientRect();
         const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
         const touch = event.touches[0];
         platformX = (touch.clientX - rect.left) * scaleX - platformWidth / 2;
         if (platformX < 0) {
