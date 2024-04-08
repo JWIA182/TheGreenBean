@@ -129,7 +129,7 @@ function gameLoop(timestamp) {
     }
 
     // Bounce the ball off the platform
-    if (ballY + ballRadius > platformY && ballX >= platformX && ballX <= platformX + platformWidth) {
+    if (ballY + ballRadius >= platformY && ballY - ballRadius < platformY && ballX >= platformX && ballX <= platformX + platformWidth) {
         ballSpeedY *= -1;
     }
 
