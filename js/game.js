@@ -68,6 +68,26 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
+// Handle touch event for platform movement
+canvas.addEventListener('touchmove', (event) => {
+    if (isGameRunning) {
+        const touch = event.touches[0];
+        platformX = touch.clientX - canvas.offsetLeft - platformWidth / 2;
+        if (platformX < 0) {
+            platformX = 0;
+        } else if (platformX + platformWidth > canvas.width) {
+            platformX = canvas.width - platformWidth;
+        }
+    }
+});
+
+// Handle touch event to start the game
+canvas.addEventListener('touchstart', () => {
+    if (!isGameRunning) {
+        startGame();
+    }
+});
+
 // Start game button click
 startGameButton.addEventListener('click', startGame);
 
