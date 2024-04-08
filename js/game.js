@@ -192,7 +192,7 @@ function resetGame() {
     platformX = 350;
     ballX = canvas.width / 2;
     ballY = canvas.height / 2;
-    ballSpeedX = 7;
-    ballSpeedY = 7;
+    ballSpeedX = 5;
+    ballSpeedY = 5;
     lastTimestamp = null;
 }
