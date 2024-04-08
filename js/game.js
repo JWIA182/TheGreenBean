@@ -73,12 +73,15 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
+// Flag to track if touch is active
+let isTouchActive = false;
+
 // Handle touch event for platform movement
 canvas.addEventListener('touchmove', (event) => {
-    if (isGameRunning) {
+    event.preventDefault(); // Prevent default touch behavior
+    if (isGameRunning && isTouchActive) {
         const rect = canvas.getBoundingClientRect();
         const scaleX = canvas.width / rect.width;
-        const scaleY = canvas.height / rect.height;
         const touch = event.touches[0];
         platformX = (touch.clientX - rect.left) * scaleX - platformWidth / 2;
         if (platformX < 0) {
@@ -94,7 +97,14 @@ canvas.addEventListener('touchstart', () => {
     if (!isGameRunning) {
         startGame();
     }
+    isTouchActive = true; // Set touch active when touch starts
 });
+
+// Handle touch end event
+canvas.addEventListener('touchend', () => {
+    isTouchActive = false; // Set touch inactive when touch ends
+});
+
 
 // Start game button click
 startGameButton.addEventListener('click', startGame);
