@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Green Bean - Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>The Green Bean</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="honours.html">Honourable Mentions</a></li>
+                <li><a href="game.html">Bean Game</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Green Bean Breakout</h2>
+        <canvas id="game-canvas" width="800" height="600"></canvas>
+        <div class="countdown-container">
+            <div class="countdown">3</div>
+        </div>
+        <button class="start-game-button">Start Game</button>
+        <div id="score-container">
+            <p>Score: <span id="score">0</span></p>
+            <p>Personal Best: <span id="personal-best">0</span></p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 The Green Bean. All rights reserved.</p>
+    </footer>
+
+    <script src="game.js"></script>
+</body>
+</html>
