@@ -79,18 +79,20 @@ function sendMessage() {
 chatSendButton.addEventListener('click', sendMessage);
 
 
-// Responsive chat container width
-const chatContainer = document.querySelector('.chat-container');
+// Function to update chat layout based on screen size
+function updateChatLayout() {
+  const screenWidth = window.innerWidth;
+  const chatContainer = document.querySelector('.chat-container');
 
-function updateChatContainerWidth() {
-    const windowWidth = window.innerWidth;
-    const maxWidth = 500; // Maximum width for the chat container
-    const padding = 20; // Padding on both sides
-
-    const newWidth = Math.min(windowWidth - 2 * padding, maxWidth);
-
-    chatContainer.style.width = `${newWidth}px`;
+  if (screenWidth <= 600) {
+    // For smaller screens, stack elements vertically
+    chatContainer.classList.add('vertical-layout');
+  } else {
+    // For larger screens, remove vertical layout class
+    chatContainer.classList.remove('vertical-layout');
+  }
 }
 
-updateChatContainerWidth();
-window.addEventListener('resize', updateChatContainerWidth);
+// Call the function initially and whenever the window is resized
+updateChatLayout();
+window.addEventListener('resize', updateChatLayout);
