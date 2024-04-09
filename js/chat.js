@@ -54,45 +54,30 @@ chatMessagesRef.orderByChild('timestamp').on('child_added', (snapshot) => {
 const chatInputElement = document.getElementById('chat-input');
 const chatSendButton = document.getElementById('chat-send');
 
-// Send a new message when 'Enter' key is pressed
-chatInputElement.addEventListener('keydown', (event) => {
-  if (event.key === 'Enter') {
-    event.preventDefault(); // Prevent the default behavior (e.g., inserting a newline)
-    sendMessage();
+chatSendButton.addEventListener('click', () => {
+  const message = chatInputElement.value.trim();
+  if (message) {
+      chatMessagesRef.push({
+          username: currentUsername,
+          message: message,
+          timestamp: firebase.database.ServerValue.TIMESTAMP
+      });
+      chatInputElement.value = '';
   }
 });
 
-// Function to send a new message
-function sendMessage() {
-  const message = chatInputElement.value.trim();
-  if (message) {
-    chatMessagesRef.push({
-      username: currentUsername,
-      message: message,
-      timestamp: firebase.database.ServerValue.TIMESTAMP
-    });
-    chatInputElement.value = '';
-  }
+// Responsive chat container width
+const chatContainer = document.querySelector('.chat-container');
+
+function updateChatContainerWidth() {
+    const windowWidth = window.innerWidth;
+    const maxWidth = 500; // Maximum width for the chat container
+    const padding = 20; // Padding on both sides
+
+    const newWidth = Math.min(windowWidth - 2 * padding, maxWidth);
+
+    chatContainer.style.width = `${newWidth}px`;
 }
 
-// Send a new message when the send button is clicked
-chatSendButton.addEventListener('click', sendMessage);
-
-
-// Function to update chat layout based on screen size
-function updateChatLayout() {
-  const screenWidth = window.innerWidth;
-  const chatContainer = document.querySelector('.chat-container');
-
-  if (screenWidth <= 600) {
-    // For smaller screens, stack elements vertically
-    chatContainer.classList.add('vertical-layout');
-  } else {
-    // For larger screens, remove vertical layout class
-    chatContainer.classList.remove('vertical-layout');
-  }
-}
-
-// Call the function initially and whenever the window is resized
-updateChatLayout();
-window.addEventListener('resize', updateChatLayout);
+updateChatContainerWidth();
+window.addEventListener('resize', updateChatContainerWidth);

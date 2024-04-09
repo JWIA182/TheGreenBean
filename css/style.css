@@ -93,30 +93,32 @@ ul, ol {
     padding: 0;
 }
 
+/* Chat Container Styles */
 .chat-container {
     max-width: 500px;
     margin: 0 auto;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
-  }
-  
-  .name-input-container,
-  .chat-input-container {
+}
+
+/* Input Container Styles */
+.name-input-container,
+.chat-input-container {
     display: flex;
     margin-bottom: 10px;
-  }
-  
-  .name-input-container input,
-  .chat-input-container input {
+}
+
+.name-input-container input,
+.chat-input-container input {
     flex-grow: 1;
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
-  }
-  
-  .name-input-container button,
-  .chat-input-container button {
+}
+
+.name-input-container button,
+.chat-input-container button {
     margin-left: 10px;
     padding: 5px;
     background-color: #4CAF50;
@@ -124,30 +126,29 @@ ul, ol {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-  }
-  
-  #chat-messages {
+}
+
+/* Chat Message Styles */
+#chat-messages {
     height: 300px;
     overflow-y: scroll;
     margin-bottom: 10px;
-  }
-  
-  .message {
+}
+
+.message {
     padding: 5px 10px;
     margin-bottom: 5px;
     background-color: #f1f1f1;
     border-radius: 5px;
-  }
-  
-  .message .username {
+}
+
+.message .username {
     font-weight: bold;
     margin-right: 5px;
-  }
-  
+}
 
 /* Media Queries */
 @media only screen and (max-width: 600px) {
-    /* Adjust styles for screens smaller than 600px */
     header {
         padding: 10px;
     }
@@ -178,34 +179,31 @@ ul, ol {
         height: auto;
     }
 
-}
-
-/* Add this CSS code for smaller screens */
-@media only screen and (max-width: 600px) {
+    /* Adjust chat layout for smaller screens */
     .chat-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
   
     .name-input-container,
     .chat-input-container {
-      width: 100%;
-      margin-bottom: 10px;
+        width: 100%;
+        margin-bottom: 10px;
     }
   
     .name-input-container button,
     .chat-input-container button {
-      margin-left: 0; /* Remove the left margin */
-      margin-top: 10px; /* Add top margin to separate from input */
+        margin-left: 0; /* Remove the left margin */
+        margin-top: 10px; /* Add top margin to separate from input */
     }
   
     .message {
-      max-width: 80%; /* Limit message width */
+        max-width: 80%; /* Limit message width */
     }
-  }
+}
 
-  @media only screen and (max-width: 480px) {
+@media only screen and (max-width: 480px) {
     .message {
         font-size: 12px;
     }
