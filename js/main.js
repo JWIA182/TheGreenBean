@@ -65,13 +65,6 @@ canvas.addEventListener('mousemove', (event) => {
   }
 });
 
-// Handle spacebar press
-document.addEventListener('keydown', (event) => {
-  if (event.code === 'Space' && !isGameRunning) {
-    startGame();
-  }
-});
-
 // Variables to track touch movement
 let touchStartX = null;
 
@@ -140,8 +133,13 @@ function gameLoop(timestamp) {
   // Draw the platform
   ctx.fillRect(platformX, platformY, platformWidth, platformHeight);
 
+  // Draw the ball with rotation
   if (ballImage.complete) {
-    ctx.drawImage(ballImage, ballX - ballRadius, ballY - ballRadius, ballRadius * 2, ballRadius * 2);
+    ctx.save(); // Save the current drawing state
+    ctx.translate(ballX, ballY); // Move the drawing origin to the center of the ball
+    ctx.rotate(ballRotationAngle); // Rotate the canvas
+    ctx.drawImage(ballImage, -ballRadius, -ballRadius, ballRadius * 2, ballRadius * 2); // Draw the ball with its top left corner at the drawing origin
+    ctx.restore(); // Restore the drawing state to undo the translation and rotation
   }
 
   // Draw the blocks
@@ -155,6 +153,9 @@ function gameLoop(timestamp) {
   ballX += ballSpeedX * (elapsed / 16.67);
   ballY += ballSpeedY * (elapsed / 16.67);
 
+  // Update the rotation angle
+  ballRotationAngle += ballRotationSpeed;
+
   // Bounce the ball off the walls
   if (ballX - ballRadius < 0 || ballX + ballRadius > canvas.width) {
     ballSpeedX *= -1;
@@ -163,9 +164,18 @@ function gameLoop(timestamp) {
     ballSpeedY *= -1;
   }
 
-  // Bounce the ball off the platform
+// Bounce the ball off the platform
   if (ballY + ballRadius >= platformY && ballY - ballRadius < platformY && ballX >= platformX && ballX <= platformX + platformWidth) {
     ballSpeedY *= -1;
+  } else if (ballY + ballRadius > platformY && ballY - ballRadius < platformY + platformHeight && ballX + ballRadius > platformX && ballX - ballRadius < platformX + platformWidth) {
+    // The ball is inside the platform
+    if (ballX < platformX + platformWidth / 2) {
+      // The ball is closer to the left side of the platform
+      ballX = platformX - ballRadius;
+    } else {
+      // The ball is closer to the right side of the platform
+      ballX = platformX + platformWidth + ballRadius;
+    }
   }
 
   // Check for block collisions
