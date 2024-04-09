@@ -1,0 +1,10 @@
+// Initialize Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyAVl5tdbfwCSasozYObL1kycStf3ALGL-Y",
+    authDomain: "greenbeanchat-b70b5.firebaseapp.com",
+    projectId: "greenbeanchat-b70b5",
+    storageBucket: "greenbeanchat-b70b5.appspot.com",
+    messagingSenderId: "638536459484",
+    appId: "1:638536459484:web:256598e18b595a2431c019",
+    measurementId: "G-1JSPS13LKK"
+  };

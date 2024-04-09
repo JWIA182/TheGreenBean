@@ -169,6 +169,23 @@ ul, ol {
         padding: 10px;
     }
 
+    #chat-messages {
+        height: 300px;
+    }
+
+    .name-input-container,
+    .chat-input-container {
+        flex-direction: column;
+    }
+
+    .name-input-container input,
+    .chat-input-container input,
+    .name-input-container button,
+    .chat-input-container button {
+        width: 100%;
+        margin: 5px 0;
+    }
+
     /* Make images responsive */
     img {
         max-width: 100%;

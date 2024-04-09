@@ -2,6 +2,7 @@
 const firebaseConfig = {
   apiKey: "AIzaSyAVl5tdbfwCSasozYObL1kycStf3ALGL-Y",
   authDomain: "greenbeanchat-b70b5.firebaseapp.com",
+  databaseURL: "https://greenbeanchat-b70b5-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "greenbeanchat-b70b5",
   storageBucket: "greenbeanchat-b70b5.appspot.com",
   messagingSenderId: "638536459484",
