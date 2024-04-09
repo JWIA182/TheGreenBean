@@ -186,6 +186,9 @@ ul, ol {
         margin: 5px 0;
     }
 
+    .message {
+        font-size: 14px;
+    }
     /* Make images responsive */
     img {
         max-width: 100%;
@@ -198,4 +201,10 @@ ul, ol {
         height: auto;
     }
 
+}
+
+@media only screen and (max-width: 480px) {
+    .message {
+        font-size: 12px;
+    }
 }
