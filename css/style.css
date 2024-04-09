@@ -163,29 +163,6 @@ ul, ol {
     #score-container {
         font-size: 16px;
     }
-
-    .chat-container {
-        max-width: 100%;
-        padding: 10px;
-    }
-
-    #chat-messages {
-        height: 300px;
-    }
-
-    .name-input-container,
-    .chat-input-container {
-        flex-direction: column;
-    }
-
-    .name-input-container input,
-    .chat-input-container input,
-    .name-input-container button,
-    .chat-input-container button {
-        width: 100%;
-        margin: 5px 0;
-    }
-
     .message {
         font-size: 14px;
     }
@@ -203,7 +180,32 @@ ul, ol {
 
 }
 
-@media only screen and (max-width: 480px) {
+/* Add this CSS code for smaller screens */
+@media only screen and (max-width: 600px) {
+    .chat-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .name-input-container,
+    .chat-input-container {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  
+    .name-input-container button,
+    .chat-input-container button {
+      margin-left: 0; /* Remove the left margin */
+      margin-top: 10px; /* Add top margin to separate from input */
+    }
+  
+    .message {
+      max-width: 80%; /* Limit message width */
+    }
+  }
+
+  @media only screen and (max-width: 480px) {
     .message {
         font-size: 12px;
     }
