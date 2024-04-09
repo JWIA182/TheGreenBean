@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bean Chat</title>
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to The Green Bean!</h1>
+        <nav>
+            <ul>
+                <li><a href="/index.html">Home</a></li>
+                <li><a href="/pages/about.html">About</a></li>
+                <li><a href="/pages/honours.html">Honourable Mentions</a></li>
+                <li><a href="/pages/game.html">Bean Game</a></li>
+                <li><a href="/pages/chat.html">Bean Chat</a></li>
+            </ul>
+        </nav>
+    </header>
+
+  <main>
+
+    <h2>EARLY ACCESS</h2>
+    <p>might include slight problems and glitches. Chats aren't saved yet</p>
+
+    <div class="chat-container">
+      <div class="name-input-container">
+        <input type="text" id="name-input" placeholder="Enter your name" />
+        <button id="name-submit">Set Name</button>
+      </div>
+      <div id="chat-messages"></div>
+      <div class="chat-input-container">
+        <input type="text" id="chat-input" placeholder="Type your message..." />
+        <button id="chat-send">Send</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 Bean Chat. All rights reserved.</p>
+  </footer>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+  <script src="/js/chat.js"></script>
+</body>
+</html>
