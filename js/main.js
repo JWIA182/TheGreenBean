@@ -28,8 +28,11 @@ let personalBest = 0;
 let ballRotationAngle = 0;
 let ballRotationSpeed = 0.1;
 let ballImage = new Image();
+let platformBounce = 10;
 ballImage.src = '/imgs/GreenBean.png';
 let lastTimestamp = null;
+let maxSpeed = 13;
+let isInvincible = false;
 
 // Create blocks
 function createBlocks(level) {
@@ -43,12 +46,38 @@ function createBlocks(level) {
         y: j * blockHeight + 50,
         width: blockWidth,
         height: blockHeight,
-        visible: true
+        visible: true,
+        color: 'green' // default to green
       });
     }
   }
+
+  // Generate a random number of blue blocks between 0 and 1
+  let numBlueBlocks = Math.floor(Math.random() * 2);
+
+  // Randomly select blocks to be blue
+  for (let i = 0; i < numBlueBlocks; i++) {
+    let randomBlockIndex = Math.floor(Math.random() * blocks.length);
+    blocks[randomBlockIndex].color = 'blue';
+  }
+
+  // Generate a random number of red blocks between 1 and 5
+  let numRedBlocks = Math.floor(Math.random() * 3) + 1;
+
+  // Randomly select blocks to be red
+  for (let i = 0; i < numRedBlocks; i++) {
+    let randomBlockIndex = Math.floor(Math.random() * blocks.length);
+    blocks[randomBlockIndex].color = 'red';
+  }
 }
-createBlocks(currentLevel);
+
+// Draw the blocks
+blocks.forEach(block => {
+  if (block.visible) {
+    ctx.fillStyle = block.color; // use the color property of the block
+    ctx.fillRect(block.x, block.y, block.width, block.height);
+  }
+});
 
 // Handle mouse movement
 canvas.addEventListener('mousemove', (event) => {
@@ -96,8 +125,11 @@ canvas.addEventListener('touchend', () => {
   touchStartX = null;
 });
 
+createBlocks(currentLevel);
+
 // Start game button click
 startGameButton.addEventListener('click', startGame);
+
 
 function startGame() {
   isGameRunning = true;
@@ -116,6 +148,9 @@ function startGame() {
   }, 1000);
 }
 
+// Start the game loop
+gameLoop(performance.now());
+
 function gameLoop(timestamp) {
   if (!isGameRunning) {
     return;
@@ -131,6 +166,7 @@ function gameLoop(timestamp) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   // Draw the platform
+  ctx.fillStyle = 'black';
   ctx.fillRect(platformX, platformY, platformWidth, platformHeight);
 
   // Draw the ball with rotation
@@ -145,6 +181,7 @@ function gameLoop(timestamp) {
   // Draw the blocks
   blocks.forEach(block => {
     if (block.visible) {
+      ctx.fillStyle = block.color; // use the color property of the block
       ctx.fillRect(block.x, block.y, block.width, block.height);
     }
   });
@@ -164,32 +201,64 @@ function gameLoop(timestamp) {
     ballSpeedY *= -1;
   }
 
-// Bounce the ball off the platform
+  // Replace the existing collision detection with the new one
   if (ballY + ballRadius >= platformY && ballY - ballRadius < platformY && ballX >= platformX && ballX <= platformX + platformWidth) {
-    ballSpeedY *= -1;
-  } else if (ballY + ballRadius > platformY && ballY - ballRadius < platformY + platformHeight && ballX + ballRadius > platformX && ballX - ballRadius < platformX + platformWidth) {
-    // The ball is inside the platform
-    if (ballX < platformX + platformWidth / 2) {
-      // The ball is closer to the left side of the platform
-      ballX = platformX - ballRadius;
-    } else {
-      // The ball is closer to the right side of the platform
-      ballX = platformX + platformWidth + ballRadius;
-    }
+    // Calculate where the ball hit the platform
+    let collidePoint = (ballX - (platformX + platformWidth / 2)) / (platformWidth / 2);
+
+    // Calculate the angle of the ball's bounce
+    let angle = collidePoint * (Math.PI / 3);
+
+    // Update ball speed for bounce
+    ballSpeedY = -platformBounce * Math.cos(angle);
+    ballSpeedX = platformBounce * Math.sin(angle);
   }
 
-  // Check for block collisions
-  let blockHit = false;
+// Check for collisions with blocks
   for (let i = 0; i < blocks.length; i++) {
-    if (blocks[i].visible && ballX - ballRadius < blocks[i].x + blocks[i].width && ballX + ballRadius > blocks[i].x && ballY - ballRadius < blocks[i].y + blocks[i].height && ballY + ballRadius > blocks[i].y) {
-      ballSpeedY *= -1;
-      blocks[i].visible = false;
-      if (!blockHit) {
+    let block = blocks[i];
+    if (block.visible) {
+      if (ballX + ballRadius > block.x && ballX - ballRadius < block.x + block.width && ballY + ballRadius > block.y && ballY - ballRadius < block.y + block.height) {
+        // Collision detected, hide the block
+        block.visible = false;
+
+        // Bounce the ball
+        ballSpeedY *= -1;
+
+        // If the block is blue, make the bean invincible for 5 seconds
+        if (block.color === 'blue') {
+          isInvincible = true;
+          setTimeout(() => {
+            isInvincible = false;
+          }, 5000);
+        }
+
+        // If the block is red, increase the speed of the ball by 10%
+        if (block.color === 'red') {
+          ballSpeedX *= 1.1;
+          ballSpeedY *= 1.1;
+          platformBounce *= 1.1;
+          console.log("gained speed")
+
+          // Check if the new speed exceeds the maximum limit
+          if (Math.abs(ballSpeedX) > maxSpeed) {
+            ballSpeedX = ballSpeedX > 0 ? maxSpeed : -maxSpeed;
+          }
+          if (Math.abs(ballSpeedY) > maxSpeed) {
+            ballSpeedY = ballSpeedY > 0 ? maxSpeed : -maxSpeed;
+          }
+          if (platformBounce > maxSpeed) {
+            platformBounce = maxSpeed;
+            console.log("Max speed reached");
+          }
+        }
+
+        // Increase the score
         score++;
-        scoreElement.textContent = score;
-        blockHit = true;
+
+        // Exit the loop
+        break;
       }
-      break; // Exit the loop after the first block is hit
     }
   }
 
@@ -221,11 +290,15 @@ function gameLoop(timestamp) {
 
   // Check if the ball falls below the platform
   if (ballY + ballRadius > canvas.height) {
-    isGameRunning = false;
-    createBlocks(currentLevel); // Recreate the blocks
-    alert(`Game Over! Your score: ${score}. Press OK or the Start Game button to restart.`);
-    resetGame();
-    score = 0; // Reset the score
+    if (!isInvincible) {
+      isGameRunning = false;
+      createBlocks(currentLevel); // Recreate the blocks
+      alert(`Game Over! Your score: ${score}. Press OK or the Start Game button to restart.`);
+      resetGame();
+      score = 0; // Reset the score
+    }else{
+      ballSpeedY *= -1;
+    }
   }
 
   // Request the next frame
@@ -237,7 +310,8 @@ function resetGame() {
   platformX = 350;
   ballX = canvas.width / 2;
   ballY = canvas.height / 2;
-  ballSpeedX = 5;
-  ballSpeedY = 5;
+  ballSpeedX = 0;
+  ballSpeedY = 10;
   lastTimestamp = null;
+  platformBounce = 10;
 }

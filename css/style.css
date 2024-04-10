@@ -84,8 +84,18 @@ main {
 }
 
 #score-container {
-    margin-top: 20px;
-    font-size: 18px;
+    display: flex;
+    justify-content: space-around;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+#score-container p {
+    margin: 0;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
 ul, ol {
@@ -146,6 +156,22 @@ ul, ol {
     font-weight: bold;
     margin-right: 5px;
 }
+
+.power-up-timer {
+    position: absolute;
+    left: 10px;
+    padding: 10px;
+    background-color: #000;
+    color: #fff;
+    border-radius: 5px;
+}
+#power-up-1-timer {
+    top: 10px;
+}
+#power-up-2-timer {
+    top: 50px;
+}
+
 
 /* Media Queries */
 @media only screen and (max-width: 600px) {

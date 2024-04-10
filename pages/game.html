@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Green Bean - Game</title>
     <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <script src="../js/assets/lib/phaser.min.js"></script>
 </head>
 <body>
     <header>
@@ -21,16 +22,16 @@
     </header>
 
     <main>
+        <div id="score-container">
+            <p>Score: <span id="score">0</span></p>
+            <p>Personal Best: <span id="personal-best">0</span></p>
+        </div>
         <h2>Green Bean Breakout</h2>
         <canvas id="game-canvas" width="800" height="600"></canvas>
         <div class="countdown-container">
             <div class="countdown">3</div>
         </div>
         <button class="start-game-button">Start Game</button>
-        <div id="score-container">
-            <p>Score: <span id="score">0</span></p>
-            <p>Personal Best: <span id="personal-best">0</span></p>
-        </div>
     </main>
 
     <footer>
